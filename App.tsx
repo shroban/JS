@@ -8,26 +8,18 @@ import {
   StyleSheet,
   Alert,
   SafeAreaView,
-  ListRenderItem,
   StatusBar,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-interface Contact {
-  id: string;
-  name: string;
-  phone: string;
-  email: string;
-}
+const App = () => {
+  const [contacts, setContacts] = useState([]);
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [editingId, setEditingId] = useState(null);
 
-const App: React.FC = () => {
-  const [contacts, setContacts] = useState<Contact[]>([]);
-  const [name, setName] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [editingId, setEditingId] = useState<string | null>(null);
-
-  const addContact = (): void => {
+  const addContact = () => {
     if (name.trim() === '' || phone.trim() === '') {
       Alert.alert('Error', 'Please fill in at least name and phone number');
       return;
@@ -44,7 +36,7 @@ const App: React.FC = () => {
       Alert.alert('Success', 'Contact updated successfully!');
     } else {
       // Add new contact
-      const newContact: Contact = {
+      const newContact = {
         id: Date.now().toString(),
         name: name.trim(),
         phone: phone.trim(),
@@ -60,21 +52,21 @@ const App: React.FC = () => {
     setEmail('');
   };
 
-  const editContact = (contact: Contact): void => {
+  const editContact = (contact) => {
     setName(contact.name);
     setPhone(contact.phone);
     setEmail(contact.email);
     setEditingId(contact.id);
   };
 
-  const cancelEdit = (): void => {
+  const cancelEdit = () => {
     setName('');
     setPhone('');
     setEmail('');
     setEditingId(null);
   };
 
-  const deleteContact = (id: string): void => {
+  const deleteContact = (id) => {
     Alert.alert(
       'Delete Contact',
       'Are you sure you want to delete this contact?',
@@ -91,7 +83,7 @@ const App: React.FC = () => {
     );
   };
 
-  const renderContact: ListRenderItem<Contact> = ({ item }) => (
+  const renderContact = ({ item }) => (
     <LinearGradient
       colors={['rgba(255,255,255,0.9)', 'rgba(255,255,255,0.8)']}
       style={styles.contactItem}
@@ -260,7 +252,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flex: 1,
     marginRight: 5,
-    
   },
   updateButton: {
     backgroundColor: '#27ae60',
